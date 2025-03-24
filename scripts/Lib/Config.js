@@ -1,6 +1,6 @@
 export default {
     API: {
-        host: "127.0.0.1",
+        host: "10.10.1.154",
         port: 3000,
     },
 };
