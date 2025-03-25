@@ -11,7 +11,7 @@ export default class API {
         const data = new HttpRequest(this.URI + "/status/");
         data.setHeaders(this.BaseHeaders);
         data.setBody(JSON.stringify({}));
-        data.setMethod(HttpRequestMethod.Post);
+        data.setMethod(HttpRequestMethod.POST);
         const request = await http.request(data);
         return request.status === 200;
     }
@@ -19,7 +19,7 @@ export default class API {
         const data = new HttpRequest(this.URI + "/members/create/");
         data.setHeaders(this.BaseHeaders);
         data.setBody(JSON.stringify(member));
-        data.setMethod(HttpRequestMethod.Post);
+        data.setMethod(HttpRequestMethod.POST);
         const request = await http.request(data);
         return request.status === 200;
     }
@@ -27,7 +27,7 @@ export default class API {
         const data = new HttpRequest(this.URI + `/members/delete/${entity_id}/`);
         data.setHeaders(this.BaseHeaders);
         data.setBody(JSON.stringify({}));
-        data.setMethod(HttpRequestMethod.Post);
+        data.setMethod(HttpRequestMethod.POST);
         const request = await http.request(data);
         if (request.status !== 200) {
             console.error("Error while deleting member:", request.status, JSON.stringify(request.body));
@@ -37,7 +37,7 @@ export default class API {
     }
     static async GetMember(entity_id) {
         const data = new HttpRequest(this.URI + `/members/get/${entity_id}`);
-        data.setMethod(HttpRequestMethod.Get);
+        data.setMethod(HttpRequestMethod.GET);
         data.setHeaders(this.BaseHeaders);
         const request = await http.request(data);
         const body = JSON.parse(request.body);
@@ -45,7 +45,7 @@ export default class API {
     }
     static async SearchMember(username) {
         const data = new HttpRequest(this.URI + `/members/search/`);
-        data.setMethod(HttpRequestMethod.Post);
+        data.setMethod(HttpRequestMethod.POST);
         data.setBody(JSON.stringify({
             username,
         }));
