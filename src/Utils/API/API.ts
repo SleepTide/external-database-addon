@@ -5,6 +5,8 @@ import {
   HttpRequestMethod,
 } from "@minecraft/server-net";
 import Config from "../../Lib/Config";
+import Sleep from "../Sleep/Sleep";
+import { system } from "@minecraft/server";
 
 export type Member = {
   entity_id: string;
@@ -17,15 +19,20 @@ export default class API {
 
   constructor() {
     API.URI = `http://${Config.API.host}:${Config.API.port}`;
-    API.BaseHeaders = [new HttpHeader("Content-Type", "application/json")];
+
+    system.run(() => {
+      API.BaseHeaders = [new HttpHeader("Content-Type", "application/json")];
+    });
   }
 
   public static async CheckStatus(): Promise<boolean> {
+    await Sleep(0);
+
     const data = new HttpRequest(this.URI + "/status/");
 
     data.setHeaders(this.BaseHeaders);
     data.setBody(JSON.stringify({}));
-    data.setMethod(HttpRequestMethod.POST);
+    data.setMethod(HttpRequestMethod.Post);
 
     const request = await http.request(data);
 
@@ -33,22 +40,26 @@ export default class API {
   }
 
   public static async CreateMember(member: Member): Promise<boolean> {
+    await Sleep(0);
+
     const data = new HttpRequest(this.URI + "/members/create/");
 
     data.setHeaders(this.BaseHeaders);
     data.setBody(JSON.stringify(member));
-    data.setMethod(HttpRequestMethod.POST);
+    data.setMethod(HttpRequestMethod.Post);
 
     const request = await http.request(data);
 
     return request.status === 200;
   }
   public static async DeleteMember(entity_id: string): Promise<boolean> {
+    await Sleep(0);
+
     const data = new HttpRequest(this.URI + `/members/delete/${entity_id}/`);
 
     data.setHeaders(this.BaseHeaders);
     data.setBody(JSON.stringify({}));
-    data.setMethod(HttpRequestMethod.POST);
+    data.setMethod(HttpRequestMethod.Post);
 
     const request = await http.request(data);
 
@@ -64,9 +75,11 @@ export default class API {
     return true;
   }
   public static async GetMember(entity_id: string): Promise<Member | null> {
+    await Sleep(0);
+
     const data = new HttpRequest(this.URI + `/members/get/${entity_id}`);
 
-    data.setMethod(HttpRequestMethod.GET);
+    data.setMethod(HttpRequestMethod.Get);
     data.setHeaders(this.BaseHeaders);
 
     const request = await http.request(data);
@@ -75,9 +88,11 @@ export default class API {
     return body.member ?? null;
   }
   public static async SearchMember(username: string): Promise<Member | null> {
+    await Sleep(0);
+
     const data = new HttpRequest(this.URI + `/members/search/`);
 
-    data.setMethod(HttpRequestMethod.POST);
+    data.setMethod(HttpRequestMethod.Post);
     data.setBody(
       JSON.stringify({
         username,
